@@ -13,7 +13,8 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-include ':core'
 
-include ':app'
-rootProject.name = "LasPeliculas"
+package com.jorgeav.core
+
+class Movie {
+}
