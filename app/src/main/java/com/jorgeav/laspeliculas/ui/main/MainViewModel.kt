@@ -30,8 +30,8 @@ class MainViewModel : ViewModel() {
     private val DEFAULT_LIST_ID: Int = 105937
 
 
-    private val _movies = MutableLiveData<String>()
-    val movies : LiveData<String>
+    private val _movies = MutableLiveData<MovieList>()
+    val movies : LiveData<MovieList>
         get() = _movies
 
     init {
