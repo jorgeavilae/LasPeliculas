@@ -16,8 +16,13 @@
 
 package com.jorgeav.laspeliculas.ui.main
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.jorgeav.core.domain.MovieList
 
 class MainViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+    private val _movies = MutableLiveData<MovieList>()
+    val movies : LiveData<MovieList>
+        get() = _movies
 }
