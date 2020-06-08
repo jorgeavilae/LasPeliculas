@@ -16,9 +16,6 @@
 
 package com.jorgeav.core.domain
 
-/**
- * Created by Jorge Avila on 08/06/2020.
- */
 data class MovieList(
     val id: Int,
     val name: String,

@@ -14,10 +14,13 @@
  *    limitations under the License.
  */
 
-package com.jorgeav.core.data
+package com.jorgeav.laspeliculas.database.network
 
+import com.jorgeav.core.data.ExternalDataSource
 import com.jorgeav.core.domain.MovieList
 
-class Repository(val externalDataSource: ExternalDataSource) {
-    fun getList(listID: String): MovieList = externalDataSource.getList(listID)
+class ExternalMovieDatabase : ExternalDataSource {
+    override fun getList(listID: String): MovieList {
+        TODO("Not yet implemented")
+    }
 }

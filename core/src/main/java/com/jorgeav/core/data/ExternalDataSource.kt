@@ -18,9 +18,6 @@ package com.jorgeav.core.data
 
 import com.jorgeav.core.domain.MovieList
 
-/**
- * Created by Jorge Avila on 08/06/2020.
- */
 interface ExternalDataSource {
     fun getList(listID: String): MovieList
 }
