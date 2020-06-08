@@ -19,10 +19,24 @@ package com.jorgeav.laspeliculas.ui.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.jorgeav.core.data.Repository
 import com.jorgeav.core.domain.MovieList
+import com.jorgeav.laspeliculas.database.network.ExternalMovieDatabase
+import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {
-    private val _movies = MutableLiveData<MovieList>()
-    val movies : LiveData<MovieList>
+
+    private val DEFAULT_LIST_ID: Int = 105937
+
+
+    private val _movies = MutableLiveData<String>()
+    val movies : LiveData<String>
         get() = _movies
+
+    init {
+        viewModelScope.launch {
+            _movies.value = Repository(ExternalMovieDatabase()).getList(DEFAULT_LIST_ID)
+        }
+    }
 }
