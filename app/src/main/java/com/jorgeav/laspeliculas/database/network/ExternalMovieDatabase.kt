@@ -16,11 +16,13 @@
 
 package com.jorgeav.laspeliculas.database.network
 
-import com.jorgeav.core.data.ExternalDataSource
-import com.jorgeav.core.domain.MovieList
+import com.jorgeav.laspeliculas.BuildConfig
+import com.jorgeav.core.data.IExternalDataSource
 
-class ExternalMovieDatabase : ExternalDataSource {
-    override fun getList(listID: String): MovieList {
-        TODO("Not yet implemented")
+class ExternalMovieDatabase : IExternalDataSource {
+    private val authV4: String = "Bearer " + BuildConfig.THE_MOVIE_DB_API_v4_TOKEN
+
+    override suspend fun getList(listID: Int): /*MovieList*/ String {
+        return TheMovieDBApi.retrofitService.getList(authV4, listID)
     }
 }

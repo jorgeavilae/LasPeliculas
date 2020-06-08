@@ -16,8 +16,6 @@
 
 package com.jorgeav.core.data
 
-import com.jorgeav.core.domain.MovieList
-
-class Repository(val externalDataSource: ExternalDataSource) {
-    fun getList(listID: String): MovieList = externalDataSource.getList(listID)
+class Repository(private val externalDataSource: IExternalDataSource) {
+    suspend fun getList(listID: Int): /*MovieList*/ String = externalDataSource.getList(listID)
 }
