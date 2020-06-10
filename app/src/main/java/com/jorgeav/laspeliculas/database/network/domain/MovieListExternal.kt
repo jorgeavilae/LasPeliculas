@@ -23,11 +23,7 @@ data class MovieListExternal(
     val name: String,
     val description: String,
     val results: List<MovieListItemExternal>
-) {
-    fun toMovieList(): MovieList {
-        return MovieList(this.id, this.name, this.description, this.results.toListOfMovieListItem(), "")
-    }
-}
+)
 
 /*
 {

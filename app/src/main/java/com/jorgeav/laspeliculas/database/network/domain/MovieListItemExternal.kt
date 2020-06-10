@@ -26,12 +26,6 @@ data class MovieListItemExternal(
     @Json(name = "poster_path") val posterPath: String
 )
 
-fun List<MovieListItemExternal>.toListOfMovieListItem(): List<MovieListItem> {
-    val result = mutableListOf<MovieListItem>()
-    forEach { result.add(MovieListItem(it.id, it.title, it.overview, it.posterPath)) }
-    return result
-}
-
 /*
 {
 ---------------------------------------------------------------"poster_path": "/axdhbcZeOsfX3ZpwtgdgPIjc06l.jpg",

@@ -14,19 +14,24 @@
  *    limitations under the License.
  */
 
-package com.jorgeav.laspeliculas.database.network
+package com.jorgeav.laspeliculas.database.network.domain
 
-import com.jorgeav.laspeliculas.BuildConfig
-import com.jorgeav.core.data.IExternalDataSource
 import com.jorgeav.core.domain.MovieList
-import com.jorgeav.laspeliculas.database.network.api.TheMovieDBApi
-import com.jorgeav.laspeliculas.database.network.domain.toMovieList
+import com.jorgeav.core.domain.MovieListItem
 
-class ExternalMovieDatabase : IExternalDataSource {
-    private val authV4: String = "Bearer " + BuildConfig.THE_MOVIE_DB_API_v4_TOKEN
+fun MovieListExternal.toMovieList(): MovieList =
+    MovieList(
+        this.id,
+        this.name,
+        this.description,
+        this.results.map { it.toListOfMovieListItem() },
+        ""
+    )
 
-    override suspend fun getList(listID: Int): MovieList {
-        val movieListExternal = TheMovieDBApi.retrofitService.getList(authV4, listID)
-        return movieListExternal.toMovieList()
-    }
-}
+fun MovieListItemExternal.toListOfMovieListItem(): MovieListItem =
+    MovieListItem(
+        this.id,
+        this.title,
+        this.overview,
+        this.posterPath
+    )
