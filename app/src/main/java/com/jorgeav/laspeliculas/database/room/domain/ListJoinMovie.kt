@@ -16,6 +16,7 @@
 
 package com.jorgeav.laspeliculas.database.room.domain
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 
@@ -37,5 +38,7 @@ import androidx.room.ForeignKey
 )
 data class ListJoinMovie (
     val listID: Int,
+
+    @ColumnInfo(index = true)
     val movieID: Int
 )
