@@ -21,7 +21,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 
 @Entity(
-    tableName = "movie_list_join_movie",
+    tableName = "movie_list_join_movie_table",
     primaryKeys = arrayOf("listID", "movieID"),
     foreignKeys = arrayOf(
         ForeignKey(
