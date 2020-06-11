@@ -16,19 +16,18 @@
 
 package com.jorgeav.laspeliculas.database.room
 
-import android.content.Context
 import com.jorgeav.core.data.IInternalDataSource
 import com.jorgeav.core.domain.MovieList
 import com.jorgeav.laspeliculas.database.room.api.MovieDatabase
 import com.jorgeav.laspeliculas.database.room.domain.toMovieList
+import javax.inject.Inject
 
-class InternalMovieDatabase(private val context: Context) : IInternalDataSource {
-
-    private val movieRoomDao = MovieDatabase.getInstance(context).movieDatabaseDao
+class InternalMovieDatabase @Inject constructor(
+    private val movieDatabase: MovieDatabase) : IInternalDataSource {
 
     override suspend fun getList(listID: Int): MovieList {
-        val movieListInternal = movieRoomDao.getMovieList(listID)
-        val movieListItemInternalArray = movieRoomDao.getMovieListItemForMovieList(listID)
+        val movieListInternal = movieDatabase.movieDatabaseDao.getMovieList(listID)
+        val movieListItemInternalArray = movieDatabase.movieDatabaseDao.getMovieListItemForMovieList(listID)
         return movieListInternal.toMovieList(movieListItemInternalArray)
     }
 
