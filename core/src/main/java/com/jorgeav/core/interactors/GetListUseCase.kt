@@ -20,8 +20,9 @@ import com.jorgeav.core.data.Repository
 import com.jorgeav.core.domain.MovieList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class GetListUseCase(private val repository: Repository) {
+class GetListUseCase @Inject constructor(private val repository: Repository) {
     suspend operator fun invoke(listID: Int) : MovieList =
         withContext(Dispatchers.IO) {
             repository.getList(listID)
