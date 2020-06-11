@@ -103,6 +103,9 @@ dependencies {
     // Core module
     implementation project(':core')
 
+    // Room Explorer
+    implementation 'com.wajahatkarim3:roomexplorer:0.0.2'
+
     // Test
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

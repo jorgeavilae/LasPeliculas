@@ -37,7 +37,7 @@ abstract class MovieDatabase : RoomDatabase() {
     abstract val movieDatabaseDao: MovieDatabaseDao
 
     companion object {
-        private const val databaseName = "movie_database"
+        const val databaseName = "movie_database"
 
         fun getInstance(context: Context) : MovieDatabase {
             // https://medium.com/androiddevelopers/understanding-migrations-with-room-f01e04b07929
