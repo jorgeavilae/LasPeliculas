@@ -26,7 +26,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.jorgeav.laspeliculas.R
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainFragment : Fragment() {
@@ -36,9 +35,7 @@ class MainFragment : Fragment() {
     }
 
     private lateinit var textView: TextView
-
-
-    val viewModel: MainViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
