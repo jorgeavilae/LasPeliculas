@@ -19,14 +19,17 @@ package com.jorgeav.laspeliculas.database.network
 import com.jorgeav.laspeliculas.BuildConfig
 import com.jorgeav.core.data.IExternalDataSource
 import com.jorgeav.core.domain.MovieList
-import com.jorgeav.laspeliculas.database.network.api.TheMovieDBApi
+import com.jorgeav.laspeliculas.database.network.api.TheMovieDBApiService
 import com.jorgeav.laspeliculas.database.network.domain.toMovieList
+import javax.inject.Inject
 
-class ExternalMovieDatabase : IExternalDataSource {
+class ExternalMovieDatabase @Inject constructor(
+    private val theMovieDBApiService: TheMovieDBApiService) : IExternalDataSource {
+
     private val authV4: String = "Bearer " + BuildConfig.THE_MOVIE_DB_API_v4_TOKEN
 
     override suspend fun getList(listID: Int): MovieList {
-        val movieListExternal = TheMovieDBApi.retrofitService.getList(authV4, listID)
+        val movieListExternal = theMovieDBApiService.getList(authV4, listID)
         return movieListExternal.toMovieList()
     }
 }
