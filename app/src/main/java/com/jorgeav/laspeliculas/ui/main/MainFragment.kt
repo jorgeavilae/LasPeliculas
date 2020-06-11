@@ -22,8 +22,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.jorgeav.laspeliculas.R
 
 class MainFragment : Fragment() {
@@ -33,22 +33,18 @@ class MainFragment : Fragment() {
     }
 
     private lateinit var textView: TextView
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by viewModels()
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.main_fragment, container, false)
         textView = view.findViewById(R.id.message)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         viewModel.movies.observe(viewLifecycleOwner, Observer {
             textView.text = it.toString()
         })
         return view
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
     }
 
 }
