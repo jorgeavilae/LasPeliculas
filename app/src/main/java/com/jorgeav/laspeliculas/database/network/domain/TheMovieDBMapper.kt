@@ -18,6 +18,9 @@ package com.jorgeav.laspeliculas.database.network.domain
 
 import com.jorgeav.core.domain.MovieList
 import com.jorgeav.core.domain.MovieListItem
+import com.squareup.moshi.FromJson
+import com.squareup.moshi.JsonQualifier
+import com.squareup.moshi.ToJson
 
 fun MovieListExternal.toMovieList(): MovieList =
     MovieList(
@@ -25,7 +28,7 @@ fun MovieListExternal.toMovieList(): MovieList =
         this.name,
         this.description,
         this.results.map { it.toListOfMovieListItem() },
-        ""
+        this.creatorUsername
     )
 
 fun MovieListItemExternal.toListOfMovieListItem(): MovieListItem =
@@ -35,3 +38,34 @@ fun MovieListItemExternal.toListOfMovieListItem(): MovieListItem =
         this.overview,
         this.posterPath
     )
+
+@Retention(AnnotationRetention.RUNTIME)
+@JsonQualifier
+annotation class CreatorUsername
+
+class ListCreatedByJsonAdapter {
+    @FromJson
+    @CreatorUsername
+    fun fromJson(json: Map<String, Any?>): String {
+        return json.getValue("username") as String
+    }
+
+    @ToJson
+    fun toJson(@CreatorUsername username: String): Map<String, Any?> {
+        return mapOf(
+            Pair("gravatar_hash",""),
+            Pair("name",""),
+            Pair("username",username),
+            Pair("id","")
+        )
+    }
+
+    /*
+        "created_by": {
+            "gravatar_hash": "c8b59687a5a791aa08edf664941bc8d6",
+            "name": "",
+            "username": "jorgeavila",
+            "id": "58a81ad6c3a3686641005807"
+        },
+    */
+}

@@ -16,13 +16,16 @@
 
 package com.jorgeav.laspeliculas.database.network.domain
 
-import com.jorgeav.core.domain.MovieList
+import com.squareup.moshi.Json
 
 data class MovieListExternal(
     val id: Int,
     val name: String,
     val description: String,
-    val results: List<MovieListItemExternal>
+    val results: List<MovieListItemExternal>,
+    @CreatorUsername
+    @Json(name = "created_by")
+    val creatorUsername: String
 )
 
 /*

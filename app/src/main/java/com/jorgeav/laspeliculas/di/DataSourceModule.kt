@@ -21,6 +21,7 @@ import com.jorgeav.core.data.IExternalDataSource
 import com.jorgeav.core.data.IInternalDataSource
 import com.jorgeav.laspeliculas.database.network.ExternalMovieDatabase
 import com.jorgeav.laspeliculas.database.network.api.TheMovieDBApiService
+import com.jorgeav.laspeliculas.database.network.domain.ListCreatedByJsonAdapter
 import com.jorgeav.laspeliculas.database.room.InternalMovieDatabase
 import com.jorgeav.laspeliculas.database.room.api.MovieDatabase
 import com.squareup.moshi.Moshi
@@ -62,6 +63,7 @@ class DataSourceModule {
         return MoshiConverterFactory.create(
             Moshi.Builder()
                 .add(KotlinJsonAdapterFactory())
+                .add(ListCreatedByJsonAdapter())
                 .build()
         )
     }
