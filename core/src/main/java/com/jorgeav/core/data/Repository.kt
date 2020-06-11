@@ -17,8 +17,11 @@
 package com.jorgeav.core.data
 
 import com.jorgeav.core.domain.MovieList
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class Repository(private val externalDataSource: IExternalDataSource,
-                 private val internalDataSource: IInternalDataSource) {
+@Singleton
+class Repository @Inject constructor(private val externalDataSource: IExternalDataSource,
+                                     private val internalDataSource: IInternalDataSource) {
     suspend fun getList(listID: Int): MovieList = externalDataSource.getList(listID)
 }
