@@ -21,20 +21,20 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-private const val BASE_URL = "https://api.themoviedb.org"
-
-private val moshi = Moshi.Builder()
-    .add(KotlinJsonAdapterFactory())
-    .build()
-
-private val retrofit = Retrofit.Builder()
-    .addConverterFactory(MoshiConverterFactory.create(moshi))
-    .baseUrl(BASE_URL)
-    .build()
-
-object TheMovieDBApi {
-    val retrofitService: TheMovieDBApiService by lazy {
-        retrofit.create(
-            TheMovieDBApiService::class.java)
-    }
-}
+//private const val BASE_URL = "https://api.themoviedb.org"
+//
+//private val moshi = Moshi.Builder()
+//    .add(KotlinJsonAdapterFactory())
+//    .build()
+//
+//private val retrofit = Retrofit.Builder()
+//    .addConverterFactory(MoshiConverterFactory.create(moshi))
+//    .baseUrl(BASE_URL)
+//    .build()
+//
+//object TheMovieDBApi {
+//    val retrofitService: TheMovieDBApiService by lazy {
+//        retrofit.create(
+//            TheMovieDBApiService::class.java)
+//    }
+//}

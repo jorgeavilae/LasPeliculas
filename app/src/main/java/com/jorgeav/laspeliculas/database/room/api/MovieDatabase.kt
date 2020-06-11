@@ -37,25 +37,13 @@ abstract class MovieDatabase : RoomDatabase() {
     abstract val movieDatabaseDao: MovieDatabaseDao
 
     companion object {
-        @Volatile
-        private var INSTANCE: MovieDatabase? = null
+        private const val databaseName = "movie_database"
 
         fun getInstance(context: Context) : MovieDatabase {
-            synchronized(this) {
-                var instance = INSTANCE
-
-                if (instance == null) {
-                    instance = Room.databaseBuilder(
-                        context.applicationContext,
-                        MovieDatabase::class.java,
-                        "movie_database")
-                        .fallbackToDestructiveMigration()
-                        .build()
-                    INSTANCE = instance
-                }
-
-                return instance
-            }
+            // https://medium.com/androiddevelopers/understanding-migrations-with-room-f01e04b07929
+            return Room.databaseBuilder(context, MovieDatabase::class.java, databaseName)
+                .fallbackToDestructiveMigration()
+                .build()
         }
     }
 }
