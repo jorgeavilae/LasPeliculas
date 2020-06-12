@@ -14,18 +14,16 @@
  *    limitations under the License.
  */
 
-package com.jorgeav.core.data
+package com.jorgeav.core.interactors
 
-import com.jorgeav.core.domain.MovieList
+import com.jorgeav.core.data.Repository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class Repository @Inject constructor(private val externalDataSource: IExternalDataSource,
-                                     private val internalDataSource: IInternalDataSource) {
-    suspend fun getList(listID: Int): MovieList = externalDataSource.getList(listID)
-
-    suspend fun refreshList(listID: Int) {
-
-    }
+class RefreshListUseCase @Inject constructor(private val repository: Repository) {
+    suspend operator fun invoke(listID: Int) =
+        withContext(Dispatchers.IO) {
+            repository.refreshList(listID)
+        }
 }
