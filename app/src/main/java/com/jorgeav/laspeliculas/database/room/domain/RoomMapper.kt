@@ -19,17 +19,40 @@ package com.jorgeav.laspeliculas.database.room.domain
 import com.jorgeav.core.domain.MovieList
 import com.jorgeav.core.domain.MovieListItem
 
-fun MovieListInternal.toMovieList(movieListItemInternalArray: Array<MovieListItemInternal>) =
+fun MovieListInternal.toMovieList(movieListItemInternalArray: Array<MovieListItemInternal>) : MovieList =
     MovieList(
         this.id,
         this.name,
         this.description,
         movieListItemInternalArray.map { it.toMovieListItem() },
-        ""
+        this.creatorUsername
     )
 
-fun MovieListItemInternal.toMovieListItem() =
+fun MovieListItemInternal.toMovieListItem() : MovieListItem =
     MovieListItem(
+        this.id,
+        this.title,
+        this.overview,
+        this.posterUrl
+    )
+
+fun MovieList.extractMovieListItemInternalArray() : Array<MovieListItemInternal> =
+    this.results.map { it.toMovieListItemInternal() }.toTypedArray()
+
+fun MovieList.extractListJoinMoviesArray() : Array<ListJoinMovie> =
+    this.results.map { ListJoinMovie(this.id, it.id) }.toTypedArray()
+
+
+fun MovieList.toMovieListInternal() : MovieListInternal =
+    MovieListInternal(
+        this.id,
+        this.name,
+        this.description,
+        this.creatorUsername
+    )
+
+fun MovieListItem.toMovieListItemInternal() : MovieListItemInternal =
+    MovieListItemInternal(
         this.id,
         this.title,
         this.overview,

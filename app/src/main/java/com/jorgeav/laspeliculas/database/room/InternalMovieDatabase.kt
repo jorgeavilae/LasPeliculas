@@ -19,7 +19,7 @@ package com.jorgeav.laspeliculas.database.room
 import com.jorgeav.core.data.IInternalDataSource
 import com.jorgeav.core.domain.MovieList
 import com.jorgeav.laspeliculas.database.room.api.MovieDatabase
-import com.jorgeav.laspeliculas.database.room.domain.toMovieList
+import com.jorgeav.laspeliculas.database.room.domain.*
 import javax.inject.Inject
 
 class InternalMovieDatabase @Inject constructor(
@@ -31,4 +31,10 @@ class InternalMovieDatabase @Inject constructor(
         return movieListInternal.toMovieList(movieListItemInternalArray)
     }
 
+    override suspend fun insertList(movieList: MovieList) {
+        val movieLisInternal = movieList.toMovieListInternal()
+        val arrayOfMovieListItemInternal = movieList.extractMovieListItemInternalArray()
+        val arrayOfListJoinMovie = movieList.extractListJoinMoviesArray()
+
+    }
 }
