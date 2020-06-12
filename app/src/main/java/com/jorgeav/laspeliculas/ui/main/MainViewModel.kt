@@ -21,10 +21,12 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.jorgeav.core.domain.MovieList
 import com.jorgeav.core.interactors.GetListUseCase
+import com.jorgeav.core.interactors.RefreshListUseCase
 import kotlinx.coroutines.launch
 
 class MainViewModel @ViewModelInject constructor(
     private val getListUseCase: GetListUseCase,
+    private val refreshListUseCase: RefreshListUseCase,
     @Assisted private val savedStateHandle: SavedStateHandle) : ViewModel() {
 
     private val DEFAULT_LIST_ID: Int = 105937
@@ -35,6 +37,7 @@ class MainViewModel @ViewModelInject constructor(
 
     init {
         viewModelScope.launch {
+            refreshListUseCase(DEFAULT_LIST_ID)
             _movies.value = getListUseCase(DEFAULT_LIST_ID)
         }
     }
