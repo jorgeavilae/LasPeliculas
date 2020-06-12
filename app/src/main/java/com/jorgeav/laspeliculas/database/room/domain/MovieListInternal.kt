@@ -26,5 +26,7 @@ data class MovieListInternal (
 
     val name: String,
 
-    val description: String
+    val description: String,
+
+    val creatorUsername: String
 )

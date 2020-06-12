@@ -30,7 +30,7 @@ import com.jorgeav.laspeliculas.database.room.domain.MovieListItemInternal
         MovieListItemInternal::class,
         ListJoinMovie::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class MovieDatabase : RoomDatabase() {
