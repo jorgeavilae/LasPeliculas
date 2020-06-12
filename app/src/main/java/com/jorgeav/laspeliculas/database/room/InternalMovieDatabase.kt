@@ -26,8 +26,8 @@ class InternalMovieDatabase @Inject constructor(
     private val movieDatabase: MovieDatabase) : IInternalDataSource {
 
     override suspend fun getList(listID: Int): MovieList {
-        val movieListInternal = movieDatabase.movieDatabaseDao.getMovieList(listID)
-        val movieListItemInternalArray = movieDatabase.movieDatabaseDao.getMovieListItemForMovieList(listID)
+        val movieListInternal = movieDatabase.movieDatabaseDao().getMovieList(listID)
+        val movieListItemInternalArray = movieDatabase.movieDatabaseDao().getMovieListItemForMovieList(listID)
         return movieListInternal.toMovieList(movieListItemInternalArray)
     }
 

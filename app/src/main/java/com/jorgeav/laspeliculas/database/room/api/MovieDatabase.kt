@@ -34,7 +34,7 @@ import com.jorgeav.laspeliculas.database.room.domain.MovieListItemInternal
     exportSchema = false
 )
 abstract class MovieDatabase : RoomDatabase() {
-    abstract val movieDatabaseDao: MovieDatabaseDao
+    abstract fun movieDatabaseDao(): MovieDatabaseDao
 
     companion object {
         const val databaseName = "movie_database"
