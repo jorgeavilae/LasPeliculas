@@ -20,4 +20,6 @@ import com.jorgeav.core.domain.MovieList
 
 interface IInternalDataSource {
     suspend fun getList(listID: Int): MovieList
+
+    suspend fun insertList(movieList: MovieList)
 }

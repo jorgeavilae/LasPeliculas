@@ -23,9 +23,11 @@ import javax.inject.Singleton
 @Singleton
 class Repository @Inject constructor(private val externalDataSource: IExternalDataSource,
                                      private val internalDataSource: IInternalDataSource) {
-    suspend fun getList(listID: Int): MovieList = externalDataSource.getList(listID)
 
     suspend fun refreshList(listID: Int) {
-
+        val list = externalDataSource.getList(listID)
+        internalDataSource.insertList(list)
     }
+
+    suspend fun getList(listID: Int): MovieList = internalDataSource.getList(listID)
 }
