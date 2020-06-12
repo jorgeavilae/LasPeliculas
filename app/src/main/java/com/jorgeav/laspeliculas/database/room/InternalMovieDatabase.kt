@@ -36,5 +36,10 @@ class InternalMovieDatabase @Inject constructor(
         val arrayOfMovieListItemInternal = movieList.extractMovieListItemInternalArray()
         val arrayOfListJoinMovie = movieList.extractListJoinMoviesArray()
 
+        movieDatabase.movieDatabaseDao().insertMovieListAndMovieListItems(
+            movieLisInternal,
+            arrayOfMovieListItemInternal,
+            arrayOfListJoinMovie
+        )
     }
 }

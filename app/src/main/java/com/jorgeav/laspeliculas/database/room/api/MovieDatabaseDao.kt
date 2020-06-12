@@ -16,9 +16,7 @@
 
 package com.jorgeav.laspeliculas.database.room.api
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.jorgeav.laspeliculas.database.room.domain.ListJoinMovie
 import com.jorgeav.laspeliculas.database.room.domain.MovieListInternal
 import com.jorgeav.laspeliculas.database.room.domain.MovieListItemInternal
@@ -26,14 +24,32 @@ import com.jorgeav.laspeliculas.database.room.domain.MovieListItemInternal
 @Dao
 interface MovieDatabaseDao {
 
-    @Insert
+    @Transaction
+    fun insertMovieListAndMovieListItems(movieListInternal: MovieListInternal,
+                                         arrayOfMovieListItemInternal: Array<MovieListItemInternal>,
+                                         arrayOfListJoinMovie: Array<ListJoinMovie>) {
+        insertMovieList(movieListInternal)
+        insertAllMovieListItem(arrayOfMovieListItemInternal)
+        insertAllListJoinMovie(arrayOfListJoinMovie)
+    }
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMovieList(movieListInternal: MovieListInternal)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMovieListItem(movieListItemInternal: MovieListItemInternal)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertListJoinMovie(listJoinMovie: ListJoinMovie)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAllMovieList(arrayOfMovieListInternal: Array<MovieListInternal>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAllMovieListItem(arrayOfMovieListItemInternal: Array<MovieListItemInternal>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAllListJoinMovie(arrayOfListJoinMovie: Array<ListJoinMovie>)
 
     @Query("SELECT * FROM movie_list_table WHERE id = :listID")
     fun getMovieList(listID: Int): MovieListInternal
