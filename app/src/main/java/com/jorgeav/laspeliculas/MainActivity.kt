@@ -18,8 +18,11 @@ package com.jorgeav.laspeliculas
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.lifecycle.Observer
+import androidx.work.WorkManager
 import com.jorgeav.laspeliculas.database.room.api.MovieDatabase
 import com.jorgeav.laspeliculas.ui.main.MainFragment
 import com.wajahatkarim3.roomexplorer.RoomExplorer
@@ -36,6 +39,11 @@ class MainActivity : AppCompatActivity() {
                     .replace(R.id.container, MainFragment.newInstance())
                     .commitNow()
         }
+
+        WorkManager.getInstance(applicationContext).getWorkInfosForUniqueWorkLiveData("RefreshListCoroutineWorker")
+            .observe(this, Observer { workInfo ->
+                Log.d("MainActivity", "onCreate: $workInfo")
+            })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

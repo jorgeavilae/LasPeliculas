@@ -19,6 +19,7 @@ package com.jorgeav.laspeliculas
 import android.app.Application
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.*
+import com.jorgeav.laspeliculas.background.RefreshListCoroutineWorker
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
@@ -32,4 +33,10 @@ class MyApplication : Application(), Configuration.Provider {
         Configuration.Builder()
             .setWorkerFactory(workerFactory)
             .build()
+
+    override fun onCreate() {
+        super.onCreate()
+
+        RefreshListCoroutineWorker.setupBackgroundWork(applicationContext)
+    }
 }
