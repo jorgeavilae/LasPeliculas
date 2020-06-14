@@ -37,7 +37,6 @@ class MainViewModel @ViewModelInject constructor(
 
     init {
         viewModelScope.launch {
-            refreshListUseCase(DEFAULT_LIST_ID)
             _movies.value = getListUseCase(DEFAULT_LIST_ID)
         }
     }

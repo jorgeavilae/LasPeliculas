@@ -38,7 +38,6 @@ class RefreshListCoroutineWorker @WorkerInject constructor(
         fun setupBackgroundWork(context: Context) {
             // Constraints
             val constraints = Constraints.Builder()
-                    // todo what if not connected?
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .setRequiresBatteryNotLow(true)
                 .setRequiresCharging(true)
