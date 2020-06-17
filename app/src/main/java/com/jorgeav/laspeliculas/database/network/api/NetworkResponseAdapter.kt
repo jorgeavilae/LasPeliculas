@@ -14,21 +14,22 @@
  *    limitations under the License.
  */
 
-package com.jorgeav.core.data
+package com.jorgeav.laspeliculas.database.network.api
 
-import com.jorgeav.core.domain.MovieList
-import javax.inject.Inject
-import javax.inject.Singleton
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.CallAdapter
+import retrofit2.Converter
+import java.lang.reflect.Type
 
-@Singleton
-class Repository @Inject constructor(private val externalDataSource: IExternalDataSource,
-                                     private val internalDataSource: IInternalDataSource) {
+class NetworkResponseAdapter<S : Any, E : Any>(
+    private val successType: Type,
+    private val errorBodyConverter: Converter<ResponseBody, E>
+) : CallAdapter<S, Call<NetworkResponse<S, E>>> {
 
-    suspend fun refreshList(listID: Int) {
-        val list = externalDataSource.getList(listID)
-        if(list != null)
-            internalDataSource.insertList(list)
+    override fun responseType(): Type = successType
+
+    override fun adapt(call: Call<S>): Call<NetworkResponse<S, E>> {
+        return NetworkResponseCall(call, errorBodyConverter)
     }
-
-    suspend fun getList(listID: Int): MovieList = internalDataSource.getList(listID)
 }

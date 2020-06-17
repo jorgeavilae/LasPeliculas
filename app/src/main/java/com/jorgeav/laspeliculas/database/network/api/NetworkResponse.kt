@@ -16,17 +16,26 @@
 
 package com.jorgeav.laspeliculas.database.network.api
 
-import com.jorgeav.laspeliculas.database.network.domain.MovieListExternal
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.Headers
-import retrofit2.http.Path
+import java.io.IOException
 
-interface TheMovieDBApiService {
-    @Headers("content-type: application/json;charset=utf-8")
-    @GET("/4/list/{listID}?page=1&language=es-ES")
-    suspend fun getList(
-        @Header("authorization") auth: String,
-        @Path("listID") listID: Int
-    ): NetworkResponse<MovieListExternal, Any>
+sealed class NetworkResponse<out T : Any, out U : Any> {
+    /**
+     * Success response with body
+     */
+    data class Success<T : Any>(val body: T) : NetworkResponse<T, Nothing>()
+
+    /**
+     * Failure response with body
+     */
+    data class ApiError<U : Any>(val body: U, val code: Int) : NetworkResponse<Nothing, U>()
+
+    /**
+     * Network error
+     */
+    data class NetworkError(val error: IOException) : NetworkResponse<Nothing, Nothing>()
+
+    /**
+     * For example, json parsing error
+     */
+    data class UnknownError(val error: Throwable?) : NetworkResponse<Nothing, Nothing>()
 }

@@ -19,5 +19,5 @@ package com.jorgeav.core.data
 import com.jorgeav.core.domain.MovieList
 
 interface IExternalDataSource {
-    suspend fun getList(listID: Int): MovieList
+    suspend fun getList(listID: Int): MovieList?
 }

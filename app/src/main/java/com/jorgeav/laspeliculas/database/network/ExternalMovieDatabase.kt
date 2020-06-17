@@ -16,9 +16,11 @@
 
 package com.jorgeav.laspeliculas.database.network
 
+import android.util.Log
 import com.jorgeav.laspeliculas.BuildConfig
 import com.jorgeav.core.data.IExternalDataSource
 import com.jorgeav.core.domain.MovieList
+import com.jorgeav.laspeliculas.database.network.api.NetworkResponse
 import com.jorgeav.laspeliculas.database.network.api.TheMovieDBApiService
 import com.jorgeav.laspeliculas.database.network.domain.toMovieList
 import javax.inject.Inject
@@ -28,8 +30,18 @@ class ExternalMovieDatabase @Inject constructor(
 
     private val authV4: String = "Bearer " + BuildConfig.THE_MOVIE_DB_API_v4_TOKEN
 
-    override suspend fun getList(listID: Int): MovieList {
+    override suspend fun getList(listID: Int): MovieList? {
         val movieListExternal = theMovieDBApiService.getList(authV4, listID)
-        return movieListExternal.toMovieList()
+        when (movieListExternal) {
+            is NetworkResponse.Success -> return movieListExternal.body.toMovieList()
+            is NetworkResponse.ApiError -> Log.d("TAG", "getList: ApiError")
+            is NetworkResponse.NetworkError -> Log.d("TAG", "getList: NetworkError")
+            is NetworkResponse.UnknownError -> Log.d("TAG", "getList: UnknownError")
+        }
+        return null
     }
 }
+
+// Handle error in kotlin retrofit coroutines
+// https://proandroiddev.com/create-retrofit-calladapter-for-coroutines-to-handle-response-as-states-c102440de37a
+// https://dev.to/eagskunst/making-safe-api-calls-with-retrofit-and-coroutines-1121
