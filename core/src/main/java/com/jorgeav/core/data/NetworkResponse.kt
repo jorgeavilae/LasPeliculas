@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package com.jorgeav.laspeliculas.database.network.api
+package com.jorgeav.core.data
 
 import java.io.IOException
 

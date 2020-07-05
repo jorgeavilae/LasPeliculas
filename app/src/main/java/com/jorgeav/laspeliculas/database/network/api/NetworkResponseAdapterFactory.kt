@@ -16,6 +16,7 @@
 
 package com.jorgeav.laspeliculas.database.network.api
 
+import com.jorgeav.core.data.NetworkResponse
 import com.squareup.moshi.Types.getRawType
 import retrofit2.Call
 import retrofit2.CallAdapter

@@ -16,6 +16,7 @@
 
 package com.jorgeav.laspeliculas.database.network.api
 
+import com.jorgeav.core.data.NetworkResponse
 import okhttp3.Request
 import okhttp3.ResponseBody
 import okio.Timeout
