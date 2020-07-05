@@ -23,6 +23,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.lifecycle.Observer
 import androidx.work.WorkManager
+import com.jorgeav.laspeliculas.background.RefreshListCoroutineWorker
 import com.jorgeav.laspeliculas.database.room.api.MovieDatabase
 import com.jorgeav.laspeliculas.ui.main.MainFragment
 import com.wajahatkarim3.roomexplorer.RoomExplorer
@@ -41,8 +42,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         WorkManager.getInstance(applicationContext).getWorkInfosForUniqueWorkLiveData("RefreshListCoroutineWorker")
-            .observe(this, Observer { workInfo ->
-                Log.d("MainActivity", "onCreate: $workInfo")
+            .observe(this, Observer { workInfos ->
+                if (workInfos.size > 0) {
+                    val workerResult = RefreshListCoroutineWorker.getOutputData(workInfos[0].outputData)
+                    Log.d("MainActivity", "onCreate: $workInfos")
+                    Log.d("MainActivity", "onCreate:Result.Data $workerResult")
+                }
             })
     }
 

@@ -35,6 +35,7 @@ class RefreshListCoroutineWorker @WorkerInject constructor(
         private const val MIN_BACKOFF_MILLIS = 60000L
         private const val LIST_ID_KEY = "LIST_ID_KEY"
         private const val DEFAULT_LIST_ID = 105937999
+        private const val RESULT_KEY = "RESULT_KEY"
 
         fun setupBackgroundWork(context: Context) {
             // Constraints
@@ -64,6 +65,10 @@ class RefreshListCoroutineWorker @WorkerInject constructor(
                 refreshListWorkRequest
             )
         }
+
+        fun getOutputData(outputData : Data) : String? {
+            return outputData.getString(RESULT_KEY)
+        }
     }
 
     override suspend fun doWork(): Result =
@@ -71,10 +76,14 @@ class RefreshListCoroutineWorker @WorkerInject constructor(
             val listID = inputData.getInt(LIST_ID_KEY, -1)
             val networkResponse = refreshListUseCase(listID)
             when (networkResponse) {
-                is NetworkResponse.Success -> Result.success()
-                is NetworkResponse.ApiError -> Result.failure()
-                is NetworkResponse.NetworkError -> Result.failure()
-                is NetworkResponse.UnknownError -> Result.failure()
+                is NetworkResponse.Success ->
+                    Result.success(workDataOf(RESULT_KEY to "Success"))
+                is NetworkResponse.ApiError ->
+                    Result.failure(workDataOf(RESULT_KEY to "ApiError"))
+                is NetworkResponse.NetworkError ->
+                    Result.failure(workDataOf(RESULT_KEY to "NetworkError"))
+                is NetworkResponse.UnknownError ->
+                    Result.failure(workDataOf(RESULT_KEY to "UnknownError"))
             }
         }
 }
