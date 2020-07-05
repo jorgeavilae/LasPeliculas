@@ -16,13 +16,15 @@
 
 package com.jorgeav.core.interactors
 
+import com.jorgeav.core.data.NetworkResponse
 import com.jorgeav.core.data.Repository
+import com.jorgeav.core.domain.MovieList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class RefreshListUseCase @Inject constructor(private val repository: Repository) {
-    suspend operator fun invoke(listID: Int) =
+    suspend operator fun invoke(listID: Int) : NetworkResponse<Any, Any> =
         withContext(Dispatchers.IO) {
             repository.refreshList(listID)
         }

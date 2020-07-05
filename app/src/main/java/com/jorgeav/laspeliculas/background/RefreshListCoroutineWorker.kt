@@ -20,6 +20,7 @@ import android.content.Context
 import androidx.hilt.Assisted
 import androidx.hilt.work.WorkerInject
 import androidx.work.*
+import com.jorgeav.core.data.NetworkResponse
 import com.jorgeav.core.interactors.RefreshListUseCase
 import kotlinx.coroutines.*
 import java.util.concurrent.TimeUnit
@@ -33,7 +34,7 @@ class RefreshListCoroutineWorker @WorkerInject constructor(
     companion object {
         private const val MIN_BACKOFF_MILLIS = 60000L
         private const val LIST_ID_KEY = "LIST_ID_KEY"
-        private const val DEFAULT_LIST_ID = 105937
+        private const val DEFAULT_LIST_ID = 105937999
 
         fun setupBackgroundWork(context: Context) {
             // Constraints
@@ -67,14 +68,13 @@ class RefreshListCoroutineWorker @WorkerInject constructor(
 
     override suspend fun doWork(): Result =
         coroutineScope {
-
             val listID = inputData.getInt(LIST_ID_KEY, -1)
-
-            if (listID != -1) refreshListUseCase(listID)
-            else Result.failure()
-
-            Result.success()
-
-            // todo check 'result' and returns Result.failure() OR Result.retry()
+            val networkResponse = refreshListUseCase(listID)
+            when (networkResponse) {
+                is NetworkResponse.Success -> Result.success()
+                is NetworkResponse.ApiError -> Result.failure()
+                is NetworkResponse.NetworkError -> Result.failure()
+                is NetworkResponse.UnknownError -> Result.failure()
+            }
         }
 }

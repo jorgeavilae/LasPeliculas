@@ -24,10 +24,11 @@ import javax.inject.Singleton
 class Repository @Inject constructor(private val externalDataSource: IExternalDataSource,
                                      private val internalDataSource: IInternalDataSource) {
 
-    suspend fun refreshList(listID: Int) {
-        val list = externalDataSource.getList(listID)
-        if(list != null)
-            internalDataSource.insertList(list)
+    suspend fun refreshList(listID: Int) : NetworkResponse<Any, Any> {
+        val networkResponse = externalDataSource.getList(listID)
+        if(networkResponse is NetworkResponse.Success && networkResponse.body is MovieList)
+            internalDataSource.insertList(networkResponse.body)
+        return networkResponse
     }
 
     suspend fun getList(listID: Int): MovieList = internalDataSource.getList(listID)
