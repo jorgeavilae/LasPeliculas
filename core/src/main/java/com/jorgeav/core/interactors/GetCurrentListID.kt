@@ -14,16 +14,11 @@
  *    limitations under the License.
  */
 
-package com.jorgeav.core.data
+package com.jorgeav.core.interactors
 
-import com.jorgeav.core.domain.MovieList
+import com.jorgeav.core.data.Repository
+import javax.inject.Inject
 
-interface IInternalDataSource {
-    suspend fun setCurrentListID(listID: Int)
-
-    suspend fun getCurrentListID() : Int
-
-    suspend fun getList(listID: Int): MovieList
-
-    suspend fun insertList(movieList: MovieList)
+class GetCurrentListID @Inject constructor(private val repository: Repository) {
+    suspend operator fun invoke() : Int = repository.getCurrentListID()
 }

@@ -16,13 +16,17 @@
 
 package com.jorgeav.laspeliculas.database.room
 
+import android.content.Context
 import com.jorgeav.core.data.IInternalDataSource
 import com.jorgeav.core.domain.MovieList
+import com.jorgeav.laspeliculas.R
 import com.jorgeav.laspeliculas.database.room.api.MovieDatabase
 import com.jorgeav.laspeliculas.database.room.domain.*
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class InternalMovieDatabase @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val movieDatabase: MovieDatabase) : IInternalDataSource {
 
     override suspend fun getList(listID: Int): MovieList {
@@ -41,5 +45,20 @@ class InternalMovieDatabase @Inject constructor(
             arrayOfMovieListItemInternal,
             arrayOfListJoinMovie
         )
+    }
+
+    override suspend fun setCurrentListID(listID: Int) {
+        val sharedPref = context.getSharedPreferences(
+            context.getString(R.string.preference_file_name), Context.MODE_PRIVATE) ?: return
+        with (sharedPref.edit()) {
+            putInt(context.getString(R.string.current_list_preference_key), listID)
+            commit()
+        }
+    }
+
+    override suspend fun getCurrentListID(): Int {
+        val sharedPref = context.getSharedPreferences(
+            context.getString(R.string.preference_file_name), Context.MODE_PRIVATE) ?: return -1
+        return sharedPref.getInt(context.getString(R.string.current_list_preference_key), -1)
     }
 }

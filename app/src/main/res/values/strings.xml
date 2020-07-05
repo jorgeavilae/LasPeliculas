@@ -17,5 +17,9 @@
 <resources>
     <string name="app_name">LasPeliculas</string>
 
+
+    <string name="preference_file_name" translatable="false">las_peliculas_preference_file_name</string>
+    <string name="current_list_preference_key" translatable="false">current_list_preference_key</string>
+
     <string name="ddbb_content" translatable="false">DDBB content</string>
 </resources>
