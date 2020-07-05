@@ -46,6 +46,7 @@ class RefreshListCoroutineWorker @WorkerInject constructor(
             // Input data
             val listIdWorkData = workDataOf(LIST_ID_KEY to DEFAULT_LIST_ID)
 
+            // todo change to periodic work
             // RequestWork
             val refreshListWorkRequest = OneTimeWorkRequestBuilder<RefreshListCoroutineWorker>()
                 .setConstraints(constraints)

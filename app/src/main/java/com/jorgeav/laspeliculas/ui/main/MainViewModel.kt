@@ -29,6 +29,7 @@ class MainViewModel @ViewModelInject constructor(
     private val refreshListUseCase: RefreshListUseCase,
     @Assisted private val savedStateHandle: SavedStateHandle) : ViewModel() {
 
+    // todo place in preference private
     private val DEFAULT_LIST_ID: Int = 105937
 
     private val _movies = MutableLiveData<MovieList>()
