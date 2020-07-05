@@ -16,6 +16,7 @@
 
 package com.jorgeav.laspeliculas.database.network.api
 
+import com.jorgeav.core.data.NetworkResponse
 import com.jorgeav.laspeliculas.database.network.domain.MovieListExternal
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -28,5 +29,5 @@ interface TheMovieDBApiService {
     suspend fun getList(
         @Header("authorization") auth: String,
         @Path("listID") listID: Int
-    ): MovieListExternal
+    ): NetworkResponse<MovieListExternal, Any>
 }

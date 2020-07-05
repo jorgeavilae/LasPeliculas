@@ -20,6 +20,7 @@ import android.content.Context
 import com.jorgeav.core.data.IExternalDataSource
 import com.jorgeav.core.data.IInternalDataSource
 import com.jorgeav.laspeliculas.database.network.ExternalMovieDatabase
+import com.jorgeav.laspeliculas.database.network.api.NetworkResponseAdapterFactory
 import com.jorgeav.laspeliculas.database.network.api.TheMovieDBApiService
 import com.jorgeav.laspeliculas.database.network.domain.ListCreatedByJsonAdapter
 import com.jorgeav.laspeliculas.database.room.InternalMovieDatabase
@@ -74,6 +75,7 @@ class DataSourceModule {
         val baseUrl = "https://api.themoviedb.org"
         return Retrofit.Builder()
             .addConverterFactory(factory)
+            .addCallAdapterFactory(NetworkResponseAdapterFactory())
             .baseUrl(baseUrl)
             .build()
             .create(TheMovieDBApiService::class.java)

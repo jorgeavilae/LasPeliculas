@@ -14,8 +14,23 @@
  *    limitations under the License.
  */
 
-package com.jorgeav.core.data
+package com.jorgeav.laspeliculas.database.network.api
 
-interface IExternalDataSource {
-    suspend fun getList(listID: Int): NetworkResponse<Any, Any>
+import com.jorgeav.core.data.NetworkResponse
+import okhttp3.ResponseBody
+import retrofit2.Call
+import retrofit2.CallAdapter
+import retrofit2.Converter
+import java.lang.reflect.Type
+
+class NetworkResponseAdapter<S : Any, E : Any>(
+    private val successType: Type,
+    private val errorBodyConverter: Converter<ResponseBody, E>
+) : CallAdapter<S, Call<NetworkResponse<S, E>>> {
+
+    override fun responseType(): Type = successType
+
+    override fun adapt(call: Call<S>): Call<NetworkResponse<S, E>> {
+        return NetworkResponseCall(call, errorBodyConverter)
+    }
 }
