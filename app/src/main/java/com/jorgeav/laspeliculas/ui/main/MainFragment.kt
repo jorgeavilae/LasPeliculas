@@ -41,9 +41,9 @@ class MainFragment : Fragment() {
                               savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.main_fragment, container, false)
         textView = view.findViewById(R.id.message)
+        textView.text = "null"
 
         viewModel.movies.observe(viewLifecycleOwner, Observer { movieList ->
-            textView.text = "null"
             movieList?.let {
                 textView.text = it.toString()
             }

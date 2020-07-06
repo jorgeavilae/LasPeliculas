@@ -20,6 +20,7 @@ import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.jorgeav.core.domain.MovieList
+import com.jorgeav.core.interactors.GetCurrentListIDUseCase
 import com.jorgeav.core.interactors.GetListUseCase
 import com.jorgeav.core.interactors.RefreshListUseCase
 import kotlinx.coroutines.launch
@@ -27,10 +28,8 @@ import kotlinx.coroutines.launch
 class MainViewModel @ViewModelInject constructor(
     private val getListUseCase: GetListUseCase,
     private val refreshListUseCase: RefreshListUseCase,
+    private val getCurrentListIDUseCase: GetCurrentListIDUseCase,
     @Assisted private val savedStateHandle: SavedStateHandle) : ViewModel() {
-
-    // todo place in preference private
-    private val DEFAULT_LIST_ID: Int = -1//105937
 
     private val _movies = MutableLiveData<MovieList>()
     val movies : LiveData<MovieList>
@@ -38,7 +37,17 @@ class MainViewModel @ViewModelInject constructor(
 
     init {
         viewModelScope.launch {
-            _movies.value = getListUseCase(DEFAULT_LIST_ID)
+            getCurrentListIDUseCase()?.let {
+                _movies.value = getListUseCase(it)
+            }?: askUserForNewListID()
         }
+    }
+
+    private fun askUserForNewListID() {
+        // todo:
+        //  implement navigation component,
+        //  create new fragment and layout asking for new listID,
+        //  store in preference,
+        //  return this fragment.
     }
 }
