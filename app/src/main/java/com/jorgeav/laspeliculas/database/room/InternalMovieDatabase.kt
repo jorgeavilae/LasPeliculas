@@ -29,10 +29,20 @@ class InternalMovieDatabase @Inject constructor(
     @ApplicationContext private val context: Context,
     private val movieDatabase: MovieDatabase) : IInternalDataSource {
 
-    override suspend fun getList(listID: Int): MovieList {
-        val movieListInternal = movieDatabase.movieDatabaseDao().getMovieList(listID)
-        val movieListItemInternalArray = movieDatabase.movieDatabaseDao().getMovieListItemForMovieList(listID)
-        return movieListInternal.toMovieList(movieListItemInternalArray)
+    override suspend fun setCurrentListID(listID: Int) {
+        val sharedPref = context.getSharedPreferences(
+            context.getString(R.string.preference_file_name), Context.MODE_PRIVATE) ?: return
+        with (sharedPref.edit()) {
+            putInt(context.getString(R.string.current_list_preference_key), listID)
+            commit()
+        }
+    }
+
+    override suspend fun getCurrentListID(): Int? {
+        val sharedPref = context.getSharedPreferences(
+            context.getString(R.string.preference_file_name), Context.MODE_PRIVATE) ?: return null
+        val result = sharedPref.getInt(context.getString(R.string.current_list_preference_key), -1)
+        return if (result == -1) null else result
     }
 
     override suspend fun insertList(movieList: MovieList) {
@@ -47,18 +57,9 @@ class InternalMovieDatabase @Inject constructor(
         )
     }
 
-    override suspend fun setCurrentListID(listID: Int) {
-        val sharedPref = context.getSharedPreferences(
-            context.getString(R.string.preference_file_name), Context.MODE_PRIVATE) ?: return
-        with (sharedPref.edit()) {
-            putInt(context.getString(R.string.current_list_preference_key), listID)
-            commit()
-        }
-    }
-
-    override suspend fun getCurrentListID(): Int {
-        val sharedPref = context.getSharedPreferences(
-            context.getString(R.string.preference_file_name), Context.MODE_PRIVATE) ?: return -1
-        return sharedPref.getInt(context.getString(R.string.current_list_preference_key), -1)
+    override suspend fun getList(listID: Int): MovieList? {
+        val movieListInternal = movieDatabase.movieDatabaseDao().getMovieList(listID)
+        val movieListItemInternalArray = movieDatabase.movieDatabaseDao().getMovieListItemForMovieList(listID)
+        return movieListInternal?.toMovieList(movieListItemInternalArray)
     }
 }

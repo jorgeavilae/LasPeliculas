@@ -52,7 +52,7 @@ interface MovieDatabaseDao {
     fun insertAllListJoinMovie(arrayOfListJoinMovie: Array<ListJoinMovie>)
 
     @Query("SELECT * FROM movie_list_table WHERE id = :listID")
-    fun getMovieList(listID: Int): MovieListInternal
+    fun getMovieList(listID: Int): MovieListInternal?
 
     @Query("""
         SELECT 
@@ -65,5 +65,5 @@ interface MovieDatabaseDao {
         ON movie_list_item_table.id = movie_list_join_movie_table.movieID
         WHERE movie_list_join_movie_table.listID = :movieListID
     """)
-    fun getMovieListItemForMovieList(movieListID: Int): Array<MovieListItemInternal>
+    fun getMovieListItemForMovieList(movieListID: Int): Array<MovieListItemInternal>?
 }

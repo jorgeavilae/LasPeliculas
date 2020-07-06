@@ -23,7 +23,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class GetListUseCase @Inject constructor(private val repository: Repository) {
-    suspend operator fun invoke(listID: Int) : MovieList =
+    suspend operator fun invoke(listID: Int) : MovieList? =
         withContext(Dispatchers.IO) {
             repository.getList(listID)
         }

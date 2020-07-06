@@ -19,13 +19,14 @@ package com.jorgeav.laspeliculas.database.room.domain
 import com.jorgeav.core.domain.MovieList
 import com.jorgeav.core.domain.MovieListItem
 
-fun MovieListInternal.toMovieList(movieListItemInternalArray: Array<MovieListItemInternal>) : MovieList =
+fun MovieListInternal.toMovieList(movieListItemInternalArray: Array<MovieListItemInternal>?) : MovieList =
     MovieList(
-        this.id,
-        this.name,
-        this.description,
-        movieListItemInternalArray.map { it.toMovieListItem() },
-        this.creatorUsername
+        id = this.id,
+        name = this.name,
+        description = this.description,
+        results = if (movieListItemInternalArray.isNullOrEmpty()) emptyList()
+                  else movieListItemInternalArray.map { it.toMovieListItem() },
+        creatorUsername = this.creatorUsername
     )
 
 fun MovieListItemInternal.toMovieListItem() : MovieListItem =
