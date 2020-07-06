@@ -19,6 +19,6 @@ package com.jorgeav.core.interactors
 import com.jorgeav.core.data.Repository
 import javax.inject.Inject
 
-class GetCurrentListID @Inject constructor(private val repository: Repository) {
+class GetCurrentListIDUseCase @Inject constructor(private val repository: Repository) {
     suspend operator fun invoke() : Int = repository.getCurrentListID()
 }
