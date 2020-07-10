@@ -35,19 +35,20 @@ class MainViewModel @ViewModelInject constructor(
     val movies : LiveData<MovieList>
         get() = _movies
 
+    private val _eventNavigateToInsertList = MutableLiveData<Boolean>()
+    val eventNavigateToInsertList : LiveData<Boolean>
+        get() = _eventNavigateToInsertList
+
     init {
+        _eventNavigateToInsertList.value = false
+
         viewModelScope.launch {
             getCurrentListIDUseCase()?.let {
                 _movies.value = getListUseCase(it)
-            }?: askUserForNewListID()
+            }?: navigateToInsertListEvent()
         }
     }
 
-    private fun askUserForNewListID() {
-        // todo:
-        //  implement navigation component,
-        //  create new fragment and layout asking for new listID,
-        //  store in preference,
-        //  return this fragment.
-    }
+    private fun navigateToInsertListEvent() { _eventNavigateToInsertList.value = true }
+    fun navigateToInsertListEventConsumed() { _eventNavigateToInsertList.value = false }
 }

@@ -17,25 +17,25 @@
 package com.jorgeav.laspeliculas.ui.main
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.jorgeav.laspeliculas.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = MainFragment()
-    }
-
     private lateinit var textView: TextView
     private val viewModel: MainViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -48,7 +48,26 @@ class MainFragment : Fragment() {
                 textView.text = it.toString()
             }
         })
+
+        viewModel.eventNavigateToInsertList.observe(viewLifecycleOwner, Observer { navigate ->
+            if (navigate != null && navigate == true)
+                findNavController().navigate(R.id.action_mainFragment_to_insertListFragment)
+        })
         return view
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.add(Menu.NONE, R.id.insert_list_menu_item, Menu.NONE, R.string.new_list_id)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.insert_list_menu_item -> {
+                findNavController().navigate(R.id.action_mainFragment_to_insertListFragment)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
 }
