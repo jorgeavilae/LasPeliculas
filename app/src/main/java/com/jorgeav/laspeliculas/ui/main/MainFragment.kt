@@ -50,8 +50,10 @@ class MainFragment : Fragment() {
         })
 
         viewModel.eventNavigateToInsertList.observe(viewLifecycleOwner, Observer { navigate ->
-            if (navigate != null && navigate == true)
+            if (navigate != null && navigate == true) {
                 findNavController().navigate(R.id.action_mainFragment_to_insertListFragment)
+                viewModel.navigateToInsertListEventConsumed()
+            }
         })
         return view
     }
