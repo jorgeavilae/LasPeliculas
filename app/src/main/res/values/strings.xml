@@ -22,4 +22,7 @@
     <string name="current_list_preference_key" translatable="false">current_list_preference_key</string>
 
     <string name="ddbb_content" translatable="false">DDBB content</string>
+    <string name="label_insert_list_id">Insert List ID from TheMovieDB.com</string>
+    <string name="search_list">Search List</string>
+    <string name="new_list_id">New List ID</string>
 </resources>
