@@ -58,6 +58,11 @@ class MainFragment : Fragment() {
         return view
     }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.loadData()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.add(Menu.NONE, R.id.insert_list_menu_item, Menu.NONE, R.string.new_list_id)
     }

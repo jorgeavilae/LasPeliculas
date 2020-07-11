@@ -33,6 +33,7 @@ interface MovieDatabaseDao {
         insertAllListJoinMovie(arrayOfListJoinMovie)
     }
 
+    // Inserts single
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMovieList(movieListInternal: MovieListInternal)
 
@@ -42,6 +43,7 @@ interface MovieDatabaseDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertListJoinMovie(listJoinMovie: ListJoinMovie)
 
+    // Inserts collections
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllMovieList(arrayOfMovieListInternal: Array<MovieListInternal>)
 
@@ -51,6 +53,7 @@ interface MovieDatabaseDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllListJoinMovie(arrayOfListJoinMovie: Array<ListJoinMovie>)
 
+    // Queries
     @Query("SELECT * FROM movie_list_table WHERE id = :listID")
     fun getMovieList(listID: Int): MovieListInternal?
 

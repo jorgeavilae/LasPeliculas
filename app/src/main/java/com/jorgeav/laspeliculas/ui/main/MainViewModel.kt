@@ -41,7 +41,9 @@ class MainViewModel @ViewModelInject constructor(
 
     init {
         _eventNavigateToInsertList.value = false
+    }
 
+    fun loadData() {
         viewModelScope.launch {
             getCurrentListIDUseCase()?.let {
                 _movies.value = getListUseCase(it)
