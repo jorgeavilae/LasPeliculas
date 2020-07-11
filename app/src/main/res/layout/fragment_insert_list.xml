@@ -25,20 +25,24 @@
         android:layout_height="match_parent"
         tools:context="com.jorgeav.laspeliculas.ui.insertlist.InsertListFragment">
 
-        <EditText
-            android:id="@+id/edit_text_insert_list"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/edit_layout_insert_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/horizontal_margin_wide"
             android:hint="@string/label_insert_list_id"
-            android:inputType="number"
             app:layout_constraintBottom_toTopOf="@+id/search_button_insert_list"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="packed"
-            android:importantForAutofill="no" />
+            app:layout_constraintVertical_chainStyle="packed">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_text_insert_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/search_button_insert_list"
@@ -50,7 +54,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_text_insert_list" />
+            app:layout_constraintTop_toBottomOf="@+id/edit_layout_insert_list" />
 
         <TextView
             android:id="@+id/error_text_insert_list"

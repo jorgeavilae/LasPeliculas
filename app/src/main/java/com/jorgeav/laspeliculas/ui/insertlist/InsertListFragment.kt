@@ -44,13 +44,8 @@ class InsertListFragment : Fragment() {
 
     @Inject lateinit var refreshListUseCase: RefreshListUseCase
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(
             layoutInflater,
             R.layout.fragment_insert_list,
@@ -60,8 +55,8 @@ class InsertListFragment : Fragment() {
 
         lifecycleScope.launch {
             val currentListID = getCurrentListIDUseCase()
-            if (currentListID == null)
-                binding.editTextInsertList.text = currentListID
+            if (currentListID != null)
+                binding.editTextInsertList.setText(currentListID.toString())
         }
 
         binding.searchButtonInsertList.setOnClickListener {
