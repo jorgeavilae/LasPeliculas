@@ -17,19 +17,22 @@
 package com.jorgeav.laspeliculas.ui.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
-import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.jorgeav.laspeliculas.R
+import com.jorgeav.laspeliculas.databinding.MainFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainFragment : Fragment() {
 
-    private lateinit var textView: TextView
+    private lateinit var binding: MainFragmentBinding
     private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,14 +42,20 @@ class MainFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        val view = inflater.inflate(R.layout.main_fragment, container, false)
-        textView = view.findViewById(R.id.message)
-        textView.text = "null"
+        binding = MainFragmentBinding.inflate(inflater, container, false)
+        binding.recyclerviewList.layoutManager = LinearLayoutManager(this.activity)
+        val movieListAdapter = MovieListAdapter(
+            MovieListHeaderListener { movieListId ->
+                Snackbar.make(binding.root, "Header clicked $movieListId", Snackbar.LENGTH_INDEFINITE).show()
+            },
+            MovieListItemListener { movieId ->
+                Snackbar.make(binding.root, "Item clicked $movieId", Snackbar.LENGTH_INDEFINITE).show()
+            }
+        )
+        binding.recyclerviewList.adapter = movieListAdapter
 
         viewModel.movies.observe(viewLifecycleOwner, Observer { movieList ->
-            movieList?.let {
-                textView.text = it.toString()
-            }
+            movieListAdapter.submitListAndAddHeader(movieList)
         })
 
         viewModel.eventNavigateToInsertList.observe(viewLifecycleOwner, Observer { navigate ->
@@ -55,7 +64,7 @@ class MainFragment : Fragment() {
                 viewModel.navigateToInsertListEventConsumed()
             }
         })
-        return view
+        return binding.root
     }
 
     override fun onStart() {

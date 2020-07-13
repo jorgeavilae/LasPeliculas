@@ -13,25 +13,36 @@
   ~    See the License for the specific language governing permissions and
   ~    limitations under the License.
   -->
+
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/container_main_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.main.MainFragment">
+    <data>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview_list"
+        <variable
+            name="movie"
+            type="com.jorgeav.core.domain.MovieListItem" />
+
+        <variable
+            name="clickListener"
+            type="com.jorgeav.laspeliculas.ui.main.MovieListItemListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> clickListener.onClick(movie)}">
+
+        <TextView
+            android:id="@+id/movie_name"
             android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_normal"
+            android:text="@{movie.title}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/movie_list_item" />
-
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

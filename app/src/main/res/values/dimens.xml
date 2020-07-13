@@ -17,4 +17,5 @@
 
 <resources>
     <dimen name="horizontal_margin_wide">32dp</dimen>
+    <dimen name="margin_normal">8dp</dimen>
 </resources>
