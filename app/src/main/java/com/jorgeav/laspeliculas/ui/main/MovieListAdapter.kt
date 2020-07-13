@@ -17,6 +17,7 @@
 package com.jorgeav.laspeliculas.ui.main
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -63,12 +64,12 @@ class MovieListAdapter (private val headerListener: MovieListHeaderListener,
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is HeaderViewHolder -> {
-                val headerItem = getItem(0) as DataItem.Header
+                val headerItem = getItem(position) as DataItem.Header
                 holder.bind(headerListener, headerItem.movieList)
             }
             is MovieViewHolder -> {
                 val movieItem = getItem(position) as DataItem.MovieItem
-                holder.bind(itemListener, movieItem.movieListItem)
+                holder.bind(itemListener, movieItem.movieListItem, (position != 1))
             }
         }
     }
@@ -111,9 +112,10 @@ class MovieListAdapter (private val headerListener: MovieListHeaderListener,
             }
         }
 
-        fun bind(clickListener: MovieListItemListener, item: MovieListItem) {
+        fun bind(clickListener: MovieListItemListener, item: MovieListItem, showDivider: Boolean = true) {
             binding.movie = item
             binding.clickListener = clickListener
+            binding.movieDivider.visibility = if (showDivider) View.VISIBLE else View.INVISIBLE
             binding.executePendingBindings()
         }
     }

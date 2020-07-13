@@ -31,18 +31,59 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/three_line_list_item_height_material"
         android:onClick="@{() -> clickListener.onClick(movie)}">
+
+        <ImageView
+            android:id="@+id/movie_poster"
+            android:layout_width="@dimen/three_line_list_item_image_width_material"
+            android:layout_height="@dimen/three_line_list_item_image_height_material"
+            android:contentDescription="@string/movie_poster_image_content_descriptor"
+            android:src="@color/colorAccent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@color/colorAccent" />
 
         <TextView
             android:id="@+id/movie_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_normal"
+            android:layout_marginStart="@dimen/three_line_list_item_image_margin_left_material"
+            android:layout_marginEnd="@dimen/three_line_list_item_text_margin_material"
             android:text="@{movie.title}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/movie_poster"
+            app:layout_constraintTop_toTopOf="@id/movie_poster"
+            app:layout_constraintBottom_toTopOf="@id/movie_details"
+            app:layout_constraintVertical_chainStyle="spread_inside"
+            tools:text="@string/app_name" />
+
+        <TextView
+            android:id="@+id/movie_details"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/three_line_list_item_image_margin_left_material"
+            android:layout_marginEnd="@dimen/three_line_list_item_text_margin_material"
+            android:ellipsize="end"
+            android:lines="2"
+            android:text="@{movie.overview}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/movie_poster"
+            app:layout_constraintTop_toBottomOf="@id/movie_name"
+            app:layout_constraintBottom_toBottomOf="@id/movie_poster"
+            tools:text="ASD ASD klfvwiehcosncocjnlecnl pdfjjfosdfh shd fksdh sdhfslkdflsd jskb
+            skns AS D AS DA SD as da sdkaldfskdfj asmd fnmsd fks dff sdjk" />
+
+        <View
+            android:id="@+id/movie_divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/colorDivider_lightBackground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/movie_name"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
