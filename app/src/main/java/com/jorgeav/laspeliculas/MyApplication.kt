@@ -19,6 +19,7 @@ package com.jorgeav.laspeliculas
 import android.app.Application
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.*
+import com.jorgeav.core.interactors.GetCurrentListIDUseCase
 import com.jorgeav.laspeliculas.background.RefreshListCoroutineWorker
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
@@ -29,6 +30,9 @@ class MyApplication : Application(), Configuration.Provider {
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
 
+    @Inject
+    lateinit var getCurrentListIDUseCase: GetCurrentListIDUseCase
+
     override fun getWorkManagerConfiguration() =
         Configuration.Builder()
             .setWorkerFactory(workerFactory)
@@ -37,6 +41,7 @@ class MyApplication : Application(), Configuration.Provider {
     override fun onCreate() {
         super.onCreate()
 
-        RefreshListCoroutineWorker.setupBackgroundWork(applicationContext)
+        val listID = getCurrentListIDUseCase()
+        RefreshListCoroutineWorker.setupBackgroundWork(applicationContext, listID)
     }
 }

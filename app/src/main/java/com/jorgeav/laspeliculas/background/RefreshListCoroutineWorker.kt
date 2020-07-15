@@ -34,10 +34,10 @@ class RefreshListCoroutineWorker @WorkerInject constructor(
     companion object {
         private const val MIN_BACKOFF_MILLIS = 60000L
         private const val LIST_ID_KEY = "LIST_ID_KEY"
-        private const val DEFAULT_LIST_ID = 105937999
+        private const val DEFAULT_LIST_ID = 1
         private const val RESULT_KEY = "RESULT_KEY"
 
-        fun setupBackgroundWork(context: Context) {
+        fun setupBackgroundWork(context: Context, listID: Int?) {
             // Constraints
             val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -46,7 +46,7 @@ class RefreshListCoroutineWorker @WorkerInject constructor(
                 .build()
 
             // Input data
-            val listIdWorkData = workDataOf(LIST_ID_KEY to DEFAULT_LIST_ID)
+            val listIdWorkData = workDataOf(LIST_ID_KEY to (listID ?: DEFAULT_LIST_ID))
 
             // todo change to periodic work
             // RequestWork
