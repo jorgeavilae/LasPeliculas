@@ -27,17 +27,30 @@ fun MovieListExternal.toMovieList(): MovieList =
         this.id,
         this.name,
         this.description,
-        this.results.map { it.toListOfMovieListItem() },
+        this.results.map { it.toMovieListItem() },
         this.creatorUsername
     )
 
-fun MovieListItemExternal.toListOfMovieListItem(): MovieListItem =
+fun MovieListItemExternal.toMovieListItem(): MovieListItem =
     MovieListItem(
         this.id,
         this.title,
         this.overview,
         this.posterPath
     )
+
+fun MovieListExternal.toMovieListWithMovies(movies: List<MovieListItem>): MovieList =
+    MovieList(
+        this.id,
+        this.name,
+        this.description,
+        movies,
+        this.creatorUsername
+    )
+
+fun MovieListExternal.extractMovieListItemsExternalAsMovieListItems(): List<MovieListItem> =
+    this.results.map { it.toMovieListItem() }
+
 
 @Retention(AnnotationRetention.RUNTIME)
 @JsonQualifier

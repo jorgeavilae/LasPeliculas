@@ -18,16 +18,14 @@ package com.jorgeav.laspeliculas.database.network.api
 
 import com.jorgeav.core.data.NetworkResponse
 import com.jorgeav.laspeliculas.database.network.domain.MovieListExternal
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.Headers
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface TheMovieDBApiService {
     @Headers("content-type: application/json;charset=utf-8")
     @GET("/4/list/{listID}?page=1&language=es-ES")
     suspend fun getList(
         @Header("authorization") auth: String,
-        @Path("listID") listID: Int
+        @Path("listID") listID: Int,
+        @Query("page") page: Int = 1
     ): NetworkResponse<MovieListExternal, Any>
 }

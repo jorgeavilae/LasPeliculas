@@ -20,6 +20,7 @@ import com.squareup.moshi.Json
 
 data class MovieListExternal(
     val id: Int,
+    val total_pages: Int,
     val name: String,
     val description: String,
     val results: List<MovieListItemExternal>,
@@ -40,7 +41,7 @@ data class MovieListExternal(
     "movie:530915": "5b280c5ec3a36864c600166c"
   },
   "revenue": 613951714,
-  "total_pages": 1,
+----------------------------------------------------------------"total_pages": 1,
 ----------------------------------------------------------------"name": "HDD HDD HDD",
   "public": true,
   "comments": {
