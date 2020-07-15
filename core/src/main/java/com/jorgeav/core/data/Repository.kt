@@ -33,7 +33,7 @@ class Repository @Inject constructor(private val externalDataSource: IExternalDa
 
     suspend fun getList(listID: Int): MovieList? = internalDataSource.getList(listID)
 
-    suspend fun setCurrentListID(listID: Int) = internalDataSource.setCurrentListID(listID)
+    fun setCurrentListID(listID: Int) = internalDataSource.setCurrentListID(listID)
 
-    suspend fun getCurrentListID() : Int? = internalDataSource.getCurrentListID()
+    fun getCurrentListID() : Int? = internalDataSource.getCurrentListID()
 }

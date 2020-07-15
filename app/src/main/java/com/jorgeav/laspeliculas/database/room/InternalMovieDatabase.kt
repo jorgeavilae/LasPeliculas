@@ -29,7 +29,7 @@ class InternalMovieDatabase @Inject constructor(
     @ApplicationContext private val context: Context,
     private val movieDatabase: MovieDatabase) : IInternalDataSource {
 
-    override suspend fun setCurrentListID(listID: Int) {
+    override fun setCurrentListID(listID: Int) {
         val sharedPref = context.getSharedPreferences(
             context.getString(R.string.preference_file_name), Context.MODE_PRIVATE) ?: return
         with (sharedPref.edit()) {
@@ -38,7 +38,7 @@ class InternalMovieDatabase @Inject constructor(
         }
     }
 
-    override suspend fun getCurrentListID(): Int? {
+    override fun getCurrentListID(): Int? {
         val sharedPref = context.getSharedPreferences(
             context.getString(R.string.preference_file_name), Context.MODE_PRIVATE) ?: return null
         val result = sharedPref.getInt(context.getString(R.string.current_list_preference_key), -1)
