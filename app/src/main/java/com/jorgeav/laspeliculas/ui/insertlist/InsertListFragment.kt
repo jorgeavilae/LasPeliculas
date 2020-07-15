@@ -76,7 +76,7 @@ class InsertListFragment : Fragment() {
     // todo move to a viewmodel or presenter
     private fun storeListID(listID: Int?) {
         if (listID == null)
-            binding.errorTextInsertList.text = "Wrong number format"
+            binding.errorTextInsertList.text = getString(R.string.number_format_error_movie_list)
         else {
             lifecycleScope.launch {
                 val networkResponse = refreshListUseCase(listID)
@@ -86,11 +86,11 @@ class InsertListFragment : Fragment() {
                         findNavController().navigateUp()
                     }
                     is NetworkResponse.ApiError -> binding.errorTextInsertList.text =
-                        "List is not found or private"
+                        getString(R.string.api_error_movie_list)
                     is NetworkResponse.NetworkError -> binding.errorTextInsertList.text =
-                        "No network connection"
+                        getString(R.string.network_error_movie_list)
                     is NetworkResponse.UnknownError -> binding.errorTextInsertList.text =
-                        "Unknown error"
+                        getString(R.string.unknown_error_movie_list)
                 }
             }
         }

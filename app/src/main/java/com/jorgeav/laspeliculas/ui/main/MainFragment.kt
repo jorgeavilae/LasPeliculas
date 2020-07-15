@@ -43,7 +43,7 @@ class MainFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         binding = MainFragmentBinding.inflate(inflater, container, false)
-        binding.recyclerviewList.layoutManager = LinearLayoutManager(this.activity)
+        binding.recyclerviewMoviesList.layoutManager = LinearLayoutManager(this.activity)
         val movieListAdapter = MovieListAdapter(
             MovieListHeaderListener { movieListId ->
                 Snackbar.make(binding.root, "Header clicked $movieListId", Snackbar.LENGTH_INDEFINITE).show()
@@ -52,7 +52,10 @@ class MainFragment : Fragment() {
                 Snackbar.make(binding.root, "Item clicked $movieId", Snackbar.LENGTH_INDEFINITE).show()
             }
         )
-        binding.recyclerviewList.adapter = movieListAdapter
+        binding.recyclerviewMoviesList.adapter = movieListAdapter
+        binding.swipeRefreshMoviesList.setOnRefreshListener {
+            viewModel.refreshList()
+        }
 
         viewModel.movies.observe(viewLifecycleOwner, Observer { movieList ->
             movieListAdapter.submitListAndAddHeader(movieList)
@@ -62,6 +65,24 @@ class MainFragment : Fragment() {
             if (navigate != null && navigate == true) {
                 findNavController().navigate(R.id.action_mainFragment_to_insertListFragment)
                 viewModel.navigateToInsertListEventConsumed()
+            }
+        })
+
+        viewModel.eventRefreshDataFinished.observe(viewLifecycleOwner, Observer { isFinished ->
+            if (isFinished != null && isFinished == true) {
+                binding.swipeRefreshMoviesList.isRefreshing = false
+                viewModel.refreshDataFinishedEventConsumed()
+            }
+        })
+
+        viewModel.eventShowInfoMessage.observe(viewLifecycleOwner, Observer { resIdInfoMessage ->
+            resIdInfoMessage?.let{
+                Snackbar.make(binding.root, it, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(android.R.string.ok) {
+                        // Snackbar is dismissed by default when clicking the action
+                    }
+                    .show()
+                viewModel.showInfoMessageEventConsumed()
             }
         })
         return binding.root

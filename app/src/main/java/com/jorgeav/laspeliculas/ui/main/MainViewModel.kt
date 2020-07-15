@@ -19,10 +19,12 @@ package com.jorgeav.laspeliculas.ui.main
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
+import com.jorgeav.core.data.NetworkResponse
 import com.jorgeav.core.domain.MovieList
 import com.jorgeav.core.interactors.GetCurrentListIDUseCase
 import com.jorgeav.core.interactors.GetListUseCase
 import com.jorgeav.core.interactors.RefreshListUseCase
+import com.jorgeav.laspeliculas.R
 import kotlinx.coroutines.launch
 
 class MainViewModel @ViewModelInject constructor(
@@ -39,6 +41,14 @@ class MainViewModel @ViewModelInject constructor(
     val eventNavigateToInsertList : LiveData<Boolean>
         get() = _eventNavigateToInsertList
 
+    private val _eventRefreshDataFinished = MutableLiveData<Boolean>()
+    val eventRefreshDataFinished : LiveData<Boolean>
+        get() = _eventRefreshDataFinished
+
+    private val _eventShowInfoMessage = MutableLiveData<Int>()
+    val eventShowInfoMessage : LiveData<Int>
+        get() = _eventShowInfoMessage
+
     init {
         _eventNavigateToInsertList.value = false
     }
@@ -51,6 +61,28 @@ class MainViewModel @ViewModelInject constructor(
         }
     }
 
+    fun refreshList() {
+        viewModelScope.launch {
+            getCurrentListIDUseCase()?.let {
+                val networkResponse = refreshListUseCase(it)
+                when (networkResponse) {
+                    // TODO if Room would return Flow<>, this call won't be necessary
+                    is NetworkResponse.Success -> loadData()
+                    is NetworkResponse.ApiError -> showInfoMessageEvent(R.string.api_error_movie_list)
+                    is NetworkResponse.NetworkError -> showInfoMessageEvent(R.string.network_error_movie_list)
+                    is NetworkResponse.UnknownError -> showInfoMessageEvent(R.string.unknown_error_movie_list)
+                }
+                refreshDataFinishedEvent()
+            }
+        }
+    }
+
     private fun navigateToInsertListEvent() { _eventNavigateToInsertList.value = true }
     fun navigateToInsertListEventConsumed() { _eventNavigateToInsertList.value = false }
+
+    private fun refreshDataFinishedEvent() { _eventRefreshDataFinished.value = true }
+    fun refreshDataFinishedEventConsumed() { _eventRefreshDataFinished.value = false }
+
+    private fun showInfoMessageEvent(resId: Int) { _eventShowInfoMessage.value = resId }
+    fun showInfoMessageEventConsumed() { _eventShowInfoMessage.value = null }
 }

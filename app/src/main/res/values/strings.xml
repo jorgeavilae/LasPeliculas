@@ -22,6 +22,11 @@
     <string name="search_list">Search List</string>
     <string name="new_list_id">New List ID</string>
 
+    <string name="number_format_error_movie_list">Wrong number format</string>
+    <string name="api_error_movie_list">List is not found or private</string>
+    <string name="network_error_movie_list">No network connection</string>
+    <string name="unknown_error_movie_list">Unknown error</string>
+
     <string name="movie_poster_image_content_descriptor">Movie\'s poster image.</string>
 
 
