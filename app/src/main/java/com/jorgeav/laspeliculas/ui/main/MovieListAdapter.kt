@@ -19,11 +19,15 @@ package com.jorgeav.laspeliculas.ui.main
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.jorgeav.core.domain.MovieList
 import com.jorgeav.core.domain.MovieListItem
+import com.jorgeav.laspeliculas.R
 import com.jorgeav.laspeliculas.databinding.MovieListItemBinding
 import com.jorgeav.laspeliculas.databinding.MovieListItemHeaderBinding
 
@@ -149,4 +153,20 @@ sealed class DataItem {
     }
 
     abstract val id: Int
+}
+
+@BindingAdapter("listItemPoster")
+fun ImageView.setListItemPoster(posterUrlPath: String?) {
+    posterUrlPath?.let {
+        // Todo move to preference + automatically updates this values calling TheMovieDB configuration API
+        val baseUrl = "https://image.tmdb.org/t/p/"
+        val sizeUrl = "w185"
+
+        val completeUrl = baseUrl + sizeUrl + posterUrlPath
+
+        Glide.with(this.context)
+            .load(completeUrl)
+            .placeholder(R.color.colorAccent)
+            .into(this)
+    }
 }

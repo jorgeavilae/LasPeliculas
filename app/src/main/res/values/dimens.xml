@@ -19,10 +19,13 @@
     <dimen name="horizontal_margin_wide">32dp</dimen>
     <dimen name="margin_normal">8dp</dimen>
 
-    <dimen name="three_line_list_item_height_material">88dp</dimen>
+<!--    <dimen name="three_line_list_item_height_material">88dp</dimen>-->
+    <dimen name="three_line_list_item_height_material">132dp</dimen>
 
-    <dimen name="three_line_list_item_image_width_material">100dp</dimen>
-    <dimen name="three_line_list_item_image_height_material">56dp</dimen>
+<!--    <dimen name="three_line_list_item_image_width_material">100dp</dimen>-->
+<!--    <dimen name="three_line_list_item_image_height_material">56dp</dimen>-->
+    <dimen name="three_line_list_item_image_width_material">56dp</dimen>
+    <dimen name="three_line_list_item_image_height_material">100dp</dimen>
     <dimen name="three_line_list_item_image_margin_left_material">20dp</dimen>
 
     <dimen name="three_line_list_item_text_margin_material">16dp</dimen>

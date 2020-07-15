@@ -36,13 +36,16 @@
 
         <ImageView
             android:id="@+id/movie_poster"
-            android:layout_width="@dimen/three_line_list_item_image_width_material"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/three_line_list_item_image_height_material"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
             android:contentDescription="@string/movie_poster_image_content_descriptor"
             android:src="@color/colorAccent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:listItemPoster="@{movie.posterUrl}"
             tools:src="@color/colorAccent" />
 
         <TextView
@@ -57,7 +60,7 @@
             app:layout_constraintStart_toEndOf="@id/movie_poster"
             app:layout_constraintTop_toTopOf="@id/movie_poster"
             app:layout_constraintBottom_toTopOf="@id/movie_details"
-            app:layout_constraintVertical_chainStyle="spread_inside"
+            app:layout_constraintVertical_chainStyle="packed"
             tools:text="@string/app_name" />
 
         <TextView
@@ -66,8 +69,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/three_line_list_item_image_margin_left_material"
             android:layout_marginEnd="@dimen/three_line_list_item_text_margin_material"
+            android:layout_marginTop="@dimen/margin_normal"
             android:ellipsize="end"
-            android:lines="2"
+            android:lines="3"
             android:text="@{movie.overview}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
             app:layout_constraintEnd_toEndOf="parent"

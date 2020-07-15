@@ -46,6 +46,8 @@ android {
     }
 
     buildTypes.each {
+        // TheMovieDB_API_v3_KEY is in gradle.properties file (not included in Github repo)
+        it.buildConfigField ("String", "TheMovieDB_API_v3_KEY", TheMovieDB_API_v3_KEY)
         // TheMovieDB_API_v4_TOKEN is in gradle.properties file (not included in Github repo)
         it.buildConfigField ("String", "THE_MOVIE_DB_API_v4_TOKEN", TheMovieDB_API_v4_TOKEN)
     }
@@ -97,6 +99,9 @@ dependencies {
     // Navigation component
     implementation "androidx.navigation:navigation-fragment-ktx:2.3.0"
     implementation "androidx.navigation:navigation-ui-ktx:2.3.0"
+
+    // Glide
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
 
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
