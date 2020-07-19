@@ -18,6 +18,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.jorgeav.laspeliculas.ui.insertlist.InsertListViewModel" />
+    </data>
+
 <!--    TODO style this fragment -->
 <!--    TODO add chrome screenshot to show where to find ListID -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/horizontal_margin_wide"
             android:hint="@string/label_insert_list_id"
-            app:layout_constraintBottom_toTopOf="@+id/search_button_insert_list"
+            app:layout_constraintBottom_toTopOf="@+id/movie_list_details_text_insert_list"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,8 +47,20 @@
                 android:id="@+id/edit_text_insert_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:imeOptions="actionSearch"
+                android:selectAllOnFocus="true"
                 android:inputType="number"/>
         </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/movie_list_details_text_insert_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/horizontal_margin_wide"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edit_layout_insert_list"
+            app:layout_constraintBottom_toTopOf="@id/search_button_insert_list"/>
 
         <Button
             android:id="@+id/search_button_insert_list"
@@ -50,21 +68,11 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/horizontal_margin_wide"
             android:text="@string/search_list"
-            app:layout_constraintBottom_toTopOf="@id/error_text_insert_list"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_layout_insert_list" />
-
-        <TextView
-            android:id="@+id/error_text_insert_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/horizontal_margin_wide"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/search_button_insert_list"/>
+            app:layout_constraintTop_toBottomOf="@+id/movie_list_details_text_insert_list" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

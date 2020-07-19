@@ -17,81 +17,80 @@
 package com.jorgeav.laspeliculas.ui.insertlist
 
 import android.os.Bundle
+import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.lifecycleScope
+import android.view.inputmethod.EditorInfo
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
-import com.jorgeav.core.data.NetworkResponse
-import com.jorgeav.core.interactors.GetCurrentListIDUseCase
-import com.jorgeav.core.interactors.RefreshListUseCase
-import com.jorgeav.core.interactors.SetCurrentListIDUseCase
-import com.jorgeav.laspeliculas.R
-import com.jorgeav.laspeliculas.databinding.FragmentInsertListBinding
+import com.google.android.material.snackbar.Snackbar
+import com.jorgeav.laspeliculas.databinding.InsertListFragmentBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class InsertListFragment : Fragment() {
 
-    private lateinit var binding : FragmentInsertListBinding
-
-    @Inject lateinit var getCurrentListIDUseCase: GetCurrentListIDUseCase
-    @Inject lateinit var setCurrentListIDUseCase: SetCurrentListIDUseCase
-
-    @Inject lateinit var refreshListUseCase: RefreshListUseCase
+    private lateinit var binding : InsertListFragmentBinding
+    private val viewModel: InsertListViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(
-            layoutInflater,
-            R.layout.fragment_insert_list,
-            container,
-            false)
-
-
-        lifecycleScope.launch {
-            val currentListID = getCurrentListIDUseCase()
-            if (currentListID != null)
-                binding.editTextInsertList.setText(currentListID.toString())
-        }
+        binding = InsertListFragmentBinding.inflate(inflater, container, false)
+        binding.viewModel = viewModel
 
         binding.searchButtonInsertList.setOnClickListener {
-            val listID: Int? = try {
-                binding.editTextInsertList.text.toString().toInt()
-            } catch (e: NumberFormatException) {
-                null
-            }
-
-            storeListID(listID)
-
+            findNavController().navigateUp()
         }
+
+        viewModel.movieList.observe(viewLifecycleOwner) {movieList ->
+            movieList?.let {
+                binding.editTextInsertList.setText(it.id.toString())
+                binding.movieListDetailsTextInsertList.text = "${it.name} \n\n${it.description}"
+            }
+        }
+
+        viewModel.snackbar.observe(viewLifecycleOwner) {snackbar ->
+            snackbar?.let {
+                Snackbar.make(binding.root, it, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(android.R.string.ok) {
+                        // Snackbar is dismissed by default when clicking the action
+                    }
+                    .show()
+                viewModel.onSnackbarShown()
+            }
+        }
+
+        setupEditText()
 
         return binding.root
     }
 
-    // todo move to a viewmodel or presenter
-    private fun storeListID(listID: Int?) {
-        if (listID == null)
-            binding.errorTextInsertList.text = getString(R.string.number_format_error_movie_list)
-        else {
-            lifecycleScope.launch {
-                val networkResponse = refreshListUseCase(listID)
-                when (networkResponse) {
-                    is NetworkResponse.Success -> {
-                        setCurrentListIDUseCase(listID)
-                        findNavController().navigateUp()
-                    }
-                    is NetworkResponse.ApiError -> binding.errorTextInsertList.text =
-                        getString(R.string.api_error_movie_list)
-                    is NetworkResponse.NetworkError -> binding.errorTextInsertList.text =
-                        getString(R.string.network_error_movie_list)
-                    is NetworkResponse.UnknownError -> binding.errorTextInsertList.text =
-                        getString(R.string.unknown_error_movie_list)
-                }
+    private fun setupEditText() {
+        binding.editTextInsertList.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_GO) {
+                updateMovieListFromInput()
+                true
+            } else {
+                false
+            }
+        }
+        binding.editTextInsertList.setOnKeyListener { _, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                updateMovieListFromInput()
+                true
+            } else {
+                false
+            }
+        }
+    }
+
+    private fun updateMovieListFromInput() {
+        binding.editTextInsertList.text?.trim().let {
+            if (it != null && it.isNotEmpty()) {
+                viewModel.searchListId(it.toString())
             }
         }
     }
